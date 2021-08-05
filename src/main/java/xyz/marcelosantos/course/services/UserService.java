@@ -9,6 +9,7 @@ import xyz.marcelosantos.course.repositories.UserRepository;
 import xyz.marcelosantos.course.services.exceptions.DatabaseException;
 import xyz.marcelosantos.course.services.exceptions.ResourceNotFoundException;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -42,9 +43,13 @@ public class UserService {
     }
 
     public User update(Long id, User obj) {
-        User entity = userRepository.getById(id);
-        updateData(entity, obj);
-        return userRepository.save(entity);
+        try {
+            User entity = userRepository.getById(id);
+            updateData(entity, obj);
+            return userRepository.save(entity);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
     }
 
     private void updateData(User entity, User obj) {
