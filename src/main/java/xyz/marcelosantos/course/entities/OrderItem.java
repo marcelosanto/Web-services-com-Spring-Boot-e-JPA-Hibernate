@@ -1,5 +1,6 @@
 package xyz.marcelosantos.course.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import xyz.marcelosantos.course.entities.pk.OrderItemPK;
 
 import javax.persistence.EmbeddedId;
@@ -29,6 +30,7 @@ public class OrderItem implements Serializable {
         this.price = price;
     }
 
+    @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
     }
